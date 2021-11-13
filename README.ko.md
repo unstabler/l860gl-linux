@@ -264,4 +264,6 @@ $ echo 'nameserver 223.62.230.7\nnameserver 113.217.240.31' > /etc/resolv.conf
 $ ping 1.1.1.1
 
 $ wget -O- github.com
+
+$ xdg-open 'https://twitter.com/intent/tweet?text=%40cheese_rulez%20%EB%8B%98%2C%20%EA%B3%A0%EB%A7%88%EC%9B%8C%EC%9A%94!&url=https%3A%2F%2Fgithub.com%2Funstabler%2Fl860gl-linux'
 ```
