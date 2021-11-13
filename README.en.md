@@ -128,6 +128,8 @@ $ echo -ne 'AT+CFUN=1\r' > /dev/ttyXMM0
 
 # 다시 모뎀 상태를 확인한다. 결과가 1,0이 반환되면 정상이다.
 $ echo -ne 'AT+CFUN?\r' > /dev/ttyXMM0
+
+$ pkill cat
 ```
 
 3. unload `xmm7560` module
