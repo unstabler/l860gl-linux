@@ -1,0 +1,61 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=0
+  INM0_DEV="inm0"
+  INM1_DEV="inm1"
+  INM2_DEV="inm2"
+  INM3_DEV="inm3"
+  INM4_DEV="inm4"
+  INM5_DEV="inm5"
+  INM6_DEV="inm6"
+  INM7_DEV="inm7"
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+  INM0_DEV="inm0_$MODEM_ID"
+  INM1_DEV="inm1_$MODEM_ID"
+  INM2_DEV="inm2_$MODEM_ID"
+  INM3_DEV="inm3_$MODEM_ID"
+  INM4_DEV="inm4_$MODEM_ID"
+  INM5_DEV="inm5_$MODEM_ID"
+  INM6_DEV="inm6_$MODEM_ID"
+  INM7_DEV="inm7_$MODEM_ID"
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+ip link del wwan$MODEM_ID.iat0_$MODEM_ID
+ip link del wwan$MODEM_ID.iat1_$MODEM_ID
+ip link del wwan$MODEM_ID.rpc0_$MODEM_ID
+# if Modem supports 2 RPC channels then uncomment the below line
+#ip link del wwan$MODEM_ID.rpc1_$MODEM_ID
+
+ip link del wwan$MODEM_ID.lpbk$MODEM_ID
+
+ip link del $INM0_DEV
+ip link del $INM1_DEV
+ip link del $INM2_DEV
+ip link del $INM3_DEV
+ip link del $INM4_DEV
+ip link del $INM5_DEV
+ip link del $INM6_DEV
+ip link del $INM7_DEV
+
+ifconfig wwan$MODEM_ID down
+

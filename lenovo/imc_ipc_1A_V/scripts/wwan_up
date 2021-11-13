@@ -1,0 +1,73 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# Path to the script location, e.g. /home/hcloud/iosm/imc_start.sh
+SCRIPT=$(readlink -f "$0")
+# Directory name this script is in, thus /home/hcloud/iosm/
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=0
+  RPC_DEV="/dev/rpc"
+  IAT0_DEV="/dev/iat"
+  IAT1_DEV="/dev/iat1"
+  # LPBK_DEV="/dev/lpbk"
+  INM0_DEV="inm0"
+  INM1_DEV="inm1"
+  INM2_DEV="inm2"
+  INM3_DEV="inm3"
+  INM4_DEV="inm4"
+  INM5_DEV="inm5"
+  INM6_DEV="inm6"
+  INM7_DEV="inm7"
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+  RPC_DEV="/dev/rpc0_$MODEM_ID"
+  IAT0_DEV="/dev/iat0_$MODEM_ID"
+  IAT1_DEV="/dev/iat1_$MODEM_ID"
+  # LPBK_DEV="/dev/lpbk$MODEM_ID"
+  INM0_DEV="inm0_$MODEM_ID"
+  INM1_DEV="inm1_$MODEM_ID"
+  INM2_DEV="inm2_$MODEM_ID"
+  INM3_DEV="inm3_$MODEM_ID"
+  INM4_DEV="inm4_$MODEM_ID"
+  INM5_DEV="inm5_$MODEM_ID"
+  INM6_DEV="inm6_$MODEM_ID"
+  INM7_DEV="inm7_$MODEM_ID"
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+# use this as a reference for setting up the interfaces
+# only the interfaces that are actually used should be configured.
+
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.rpc0_$MODEM_ID -v 257 -c $RPC_DEV -m 32768 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.iat0_$MODEM_ID  -v 258 -c $IAT0_DEV -m 2048 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.iat1_$MODEM_ID -v 259 -c $IAT1_DEV -m 2048 -i $MODEM_ID
+# $SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.lpbk$MODEM_ID -v 260 -c $LPBK_DEV -m 65535 -i $MODEM_ID
+# If modem supports 2 RPC channels then uncomment the below line
+# $SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.rpc1 -v 262 -c /dev/rpc1_$MODEM_ID -m 32768
+
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM0_DEV -v 1 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM1_DEV -v 2 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM2_DEV -v 3 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM3_DEV -v 4 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM4_DEV -v 5 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM5_DEV -v 6 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM6_DEV -v 7 -i $MODEM_ID
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM7_DEV -v 8 -i $MODEM_ID

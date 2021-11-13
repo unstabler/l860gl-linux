@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=0
+  RPC0_DEV="/dev/rpc"
+  RPC1_DEV="/dev/rpc1"
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+  RPC0_DEV="/dev/rpc0_$MODEM_ID"
+  RPC1_DEV="/dev/rpc1_$MODEM_ID"
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+# delete RPC channels
+ip link del wwan$MODEM_ID.rpc0_$MODEM_ID
+
+# if Modem supports 2 RPC channels then uncomment the below line
+#ip link del wwan$MODEM_ID.rpc1_$MODEM_ID

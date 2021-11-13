@@ -1,0 +1,51 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# Path to the script location, e.g. /home/hcloud/iosm/imc_start.sh
+SCRIPT=$(readlink -f "$0")
+# Directory name this script is in, thus /home/hcloud/iosm/
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=""
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+$SCRIPT_DIR/ipc_config
+
+# Control channels
+#$SCRIPT_DIR/imc_start_rpc $MODEM_ID
+$SCRIPT_DIR/imc_start_at $MODEM_ID
+#$SCRIPT_DIR/imc_start_gnss $MODEM_ID
+
+# Ip channels
+$SCRIPT_DIR/imc_start0 $MODEM_ID
+#To increase data buffer size upto 64k,replace imc_start0 with imc_start64k
+#as per the example given below
+#$SCRIPT_DIR/imc_start64k $MODEM_ID
+#$SCRIPT_DIR/imc_start1 $MODEM_ID
+#$SCRIPT_DIR/imc_start2 $MODEM_ID
+#$SCRIPT_DIR/imc_start3 $MODEM_ID
+#$SCRIPT_DIR/imc_start4 $MODEM_ID
+#$SCRIPT_DIR/imc_start5 $MODEM_ID
+#$SCRIPT_DIR/imc_start6 $MODEM_ID
+#$SCRIPT_DIR/imc_start7 $MODEM_ID
+

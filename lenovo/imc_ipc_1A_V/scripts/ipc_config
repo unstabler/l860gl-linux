@@ -1,0 +1,134 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+CONF_FILE=/etc/sysctl.conf
+REVERT=false
+
+while getopts rh option
+do
+  case "${option}"
+  in
+    r) REVERT=true;;
+    h) help
+       echo "optional -r arg. to revert to original file."
+       exit 0;;
+  esac
+done
+
+if [ "$REVERT" = "true" ]; then
+	echo "reverting the configuration file $CONF_FILE."
+	TMP_FILE=`tempfile`
+
+	touch $TMP_FILE
+
+	cat $CONF_FILE | while read LINE ; do
+		OUTPUT=`echo $LINE | grep "# IOSM:"`
+		if [ -n "$OUTPUT" ]; then
+			# OUTPUT contains IOSM string.
+			NEW_PARAM=`echo $LINE | grep "# IOSM: New parameter"`
+			MOD_PARAM=`echo $LINE | grep "# IOSM: Modified parameter"`
+
+			if [ -n "$NEW_PARAM" ]; then
+				# New parameter was added here.
+				EXPECTED_NEXT_LINE=`echo $LINE | rev | cut -f 1 -d " " | rev`
+				read NEXT_LINE
+				if [ "$NEXT_LINE" != "$EXPECTED_NEXT_LINE" ] ; then
+					echo "Unhandled IOSM modified line $LINE"
+					echo "$NEXT_LINE" >> $TMP_FILE
+				fi
+
+			elif [ -n "$MOD_PARAM" ]; then
+				STRIPPED_LINE=`echo $LINE | sed 's/# IOSM: Modified parameter //'`
+				OLD_LINE=`echo $STRIPPED_LINE | cut -f 1 -d " "`
+				NEW_LINE=`echo $STRIPPED_LINE | rev | cut -f 1 -d " " | rev`
+				# Modified parameter was added here.
+				read NEXT_LINE
+				if [ "$NEXT_LINE" = "$NEW_LINE" ] ; then
+					# echo "match found: $NEXT_LINE"
+					echo $OLD_LINE >> $TMP_FILE
+				else
+					echo "Unhandled IOSM modified line $LINE"
+					echo "$NEXT_LINE" >> $TMP_FILE
+				fi
+			else
+				echo "Unhandled IOSM string in $LINE"
+				echo $LINE >> $TMP_FILE
+			fi
+		else
+			echo $LINE >> $TMP_FILE
+		fi
+	done
+	mv $TMP_FILE $CONF_FILE
+	rm -f $TMP_FILE
+	exit 0
+fi
+
+change_param() {
+
+	# Check if the parameter already exists in the file.
+	ENTRIES=`cat $CONF_FILE | grep -nvxE '[[:blank:]]*([#;].*)?' | grep $1`
+	if [ -z "$ENTRIES" ]; then
+		# Entry doesn't exist in the file. Add it.
+		echo "# IOSM: New parameter $1=$2" >> $CONF_FILE
+		echo "$1=$2" >> $CONF_FILE
+	else
+		addition_required=true
+		# Delete the line containing old parameter if it doesn't match the value.
+		# Do not delete line with comments
+		# Sort in the reverse order, because the line numbers given
+		# by grep are not valid if you delete from the beginning.
+		# So the deleting must be done from the end.
+		ENTRIES=`echo $ENTRIES | sort -rn`
+
+		for LINE in $ENTRIES; do
+			LINE_NUMBER=`echo $LINE | cut -f 1 -d :`
+			LINE_WITHOUT_NUMBER=`echo $LINE | cut -f 2 -d :`
+			FIRST_CHAR=`echo $LINE | cut -f 2 -d : | tr -d [:space:] | cut -c 1-1`
+			VALUE=`echo $LINE | cut -f 2 -d = | tr -d [:space:]`
+			if [ "$FIRST_CHAR" != "#" ] ; then
+				if [ "$VALUE" != "$2" ] ; then
+				# If it is a comment, don't remove it from the file.
+				# echo "Removing the line $LINE_NUMBER from the file"
+				sed -i "${LINE_NUMBER}d" $CONF_FILE
+					echo "# IOSM: Modified parameter $LINE_WITHOUT_NUMBER to $1=$2" >> $CONF_FILE
+				echo "$1=$2" >> $CONF_FILE
+				addition_required=false
+				break
+			else
+				# Parameter exists with the expected value.
+				# echo "Parameter $1 exists with expected value."
+				addition_required=false
+				break
+			fi
+			fi
+		done
+
+		# This check is required as the variable might exist in the conf
+		# file, but only as a comment.
+		if [ "$addition_required" = "true" ]; then
+			# echo "Parameter $1 added."
+			echo "# IOSM: New parameter $1=$2" >> $CONF_FILE
+			echo "$1=$2" >> $CONF_FILE
+		fi
+	fi
+}
+
+change_param net.core.wmem_default 5000000
+change_param net.core.rmem_max 5000000
+change_param net.core.rmem_default 5000000
+change_param net.core.netdev_max_backlog 500000
+change_param net.core.optmem_max 20000000
+change_param net.ipv4.udp_rmem_min 4096
+change_param net.ipv4.udp_wmem_min 4096
+change_param vm.min_free_kbytes 1048576
+change_param vm.swappiness 1
+
+# Load the parameters from the default conf file
+echo "Loading the Kernel Stack Parameters."
+sysctl -p
+

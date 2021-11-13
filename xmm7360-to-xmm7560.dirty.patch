@@ -1,0 +1,1561 @@
+diff --git a/.Module.symvers.cmd b/.Module.symvers.cmd
+new file mode 100644
+index 0000000..f328746
+--- /dev/null
++++ b/.Module.symvers.cmd
+@@ -0,0 +1 @@
++cmd_/home/cheesekun/build/packages/xmm7360-pci/Module.symvers := sed 's/\.ko$$/\.o/' /home/cheesekun/build/packages/xmm7360-pci/modules.order | scripts/mod/modpost  -a  -o /home/cheesekun/build/packages/xmm7360-pci/Module.symvers -e -i Module.symvers  -N -T -
+diff --git a/.gitignore b/.gitignore
+index d88614d..11cc17c 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,4 +1,4 @@
+-xmm7360.ini
++xmm7560.ini
+ .tmp_versions/
+ tags
+ *o.cmd
+diff --git a/.modules.order.cmd b/.modules.order.cmd
+new file mode 100644
+index 0000000..eacf275
+--- /dev/null
++++ b/.modules.order.cmd
+@@ -0,0 +1 @@
++cmd_/home/cheesekun/build/packages/xmm7360-pci/modules.order := {   echo /home/cheesekun/build/packages/xmm7360-pci/xmm7560.ko; :; } | awk '!x[$$0]++' - > /home/cheesekun/build/packages/xmm7360-pci/modules.order
+diff --git a/DEVICES.md b/DEVICES.md
+index d866529..50595b0 100644
+--- a/DEVICES.md
++++ b/DEVICES.md
+@@ -6,10 +6,10 @@
+ 
+ | Device                  | OS           | Works? | Issue Link/Comment                                           |
+ | ----------------------- | ------------ | ------ | ------------------------------------------------------------ |
+-| Zbook G7                | Ubuntu 20.10 | Yes    | [#70](https://github.com/xmm7360/xmm7360-pci/issues/70#issue-810595315) |
+-| Elitebook 830 G6        | Linux 5.4.0  | Yes    | [#40](https://github.com/xmm7360/xmm7360-pci/issues/40)      |
+-| Elitebook 735 G6        | *?*          | Yes    | [#40](https://github.com/xmm7360/xmm7360-pci/issues/40)      |
+-| Elite Dragonfly 8MK79EA | Ubuntu 20.04 | Yes    | [#23](https://github.com/xmm7360/xmm7360-pci/issues/23)      |
++| Zbook G7                | Ubuntu 20.10 | Yes    | [#70](https://github.com/xmm7560/xmm7560-pci/issues/70#issue-810595315) |
++| Elitebook 830 G6        | Linux 5.4.0  | Yes    | [#40](https://github.com/xmm7560/xmm7560-pci/issues/40)      |
++| Elitebook 735 G6        | *?*          | Yes    | [#40](https://github.com/xmm7560/xmm7560-pci/issues/40)      |
++| Elite Dragonfly 8MK79EA | Ubuntu 20.04 | Yes    | [#23](https://github.com/xmm7560/xmm7560-pci/issues/23)      |
+ 
+ ## Lenovo
+ 
+@@ -18,43 +18,43 @@
+ 
+ | Device     | OS                           | Works? | Issue Link/Comment                                           |
+ | ---------- | ---------------------------- | ------ | ------------------------------------------------------------ |
+-| T14s (AMD) | Manjaro 20.1.2, Ubuntu 20.10 | Yes*   | [#54](https://github.com/xmm7360/xmm7360-pci/issues/54), [#120](https://github.com/xmm7360/xmm7360-pci/issues/120) |
+-| T14        | Ubuntu 20.04.2, Ubuntu 21.04 | Yes    | [#89](https://github.com/xmm7360/xmm7360-pci/issues/89)      |
+-| T15        | Manjaro                      | Yes    | [#98](https://github.com/xmm7360/xmm7360-pci/issues/98)      |
+-| T495       | opensuse leap 15.2           | Yes*   | [#51](https://github.com/xmm7360/xmm7360-pci/issues/51)      |
+-| T495       | Ubuntu 20.04                 | Yes    | [#44](https://github.com/xmm7360/xmm7360-pci/issues/44)      |
+-| T495       | Pop! OS 20.04 LTS            | Yes    | [#88](https://github.com/xmm7360/xmm7360-pci/issues/88)      |
+-| T480       | opensuse Tumbleweed          | Yes*   | [#34](https://github.com/xmm7360/xmm7360-pci/issues/34#issuecomment-608655279) |
+-| T480s      | Fedora 33, Manjaro 21.0.7    | Yes*   | [#91](https://github.com/xmm7360/xmm7360-pci/issues/91), [#116](https://github.com/xmm7360/xmm7360-pci/issues/116) |
++| T14s (AMD) | Manjaro 20.1.2, Ubuntu 20.10 | Yes*   | [#54](https://github.com/xmm7560/xmm7560-pci/issues/54), [#120](https://github.com/xmm7560/xmm7560-pci/issues/120) |
++| T14        | Ubuntu 20.04.2, Ubuntu 21.04 | Yes    | [#89](https://github.com/xmm7560/xmm7560-pci/issues/89)      |
++| T15        | Manjaro                      | Yes    | [#98](https://github.com/xmm7560/xmm7560-pci/issues/98)      |
++| T495       | opensuse leap 15.2           | Yes*   | [#51](https://github.com/xmm7560/xmm7560-pci/issues/51)      |
++| T495       | Ubuntu 20.04                 | Yes    | [#44](https://github.com/xmm7560/xmm7560-pci/issues/44)      |
++| T495       | Pop! OS 20.04 LTS            | Yes    | [#88](https://github.com/xmm7560/xmm7560-pci/issues/88)      |
++| T480       | opensuse Tumbleweed          | Yes*   | [#34](https://github.com/xmm7560/xmm7560-pci/issues/34#issuecomment-608655279) |
++| T480s      | Fedora 33, Manjaro 21.0.7    | Yes*   | [#91](https://github.com/xmm7560/xmm7560-pci/issues/91), [#116](https://github.com/xmm7560/xmm7560-pci/issues/116) |
+ 
+ #### ThinkPad X Series
+ 
+ | Device              | OS                               | Works?                 | Issue Link/Comment                                           |
+ | ------------------- | -------------------------------- | ---------------------- | ------------------------------------------------------------ |
+-| X1 Nano             | Ubuntu 21.04                     | Yes*                   | [#125](https://github.com/xmm7360/xmm7360-pci/issues/125)    |
+-| X1 Carbon Gen8      | Ubuntu 20.04.1 LTS, Gentoo Linux | Yes                    | [#49](https://github.com/xmm7360/xmm7360-pci/issues/49), [#103](https://github.com/xmm7360/xmm7360-pci/issues/103) |
+-| X1 Carbon Gen7      | *?*                              | Yes*                   | [#41](https://github.com/xmm7360/xmm7360-pci/issues/41), [#25 Comment.1](https://github.com/xmm7360/xmm7360-pci/issues/25#issuecomment-590215108), [#25 Comment.2](https://github.com/xmm7360/xmm7360-pci/issues/25#issuecomment-721506784) |
+-| X1 Carbon Gen6      | Manjaro 21.0.7, Ubuntu 20.04     | Yes *(\* for Manjaro)* | [#116](https://github.com/xmm7360/xmm7360-pci/issues/116), [#97](https://github.com/xmm7360/xmm7360-pci/issues/97) |
+-| X1 Yoga Gen5 (20UC) | Ubuntu 20.04                     | Yes                    | [#48](https://github.com/xmm7360/xmm7360-pci/issues/48)      |
+-| X1 Yoga Gen4        | Pop! OS, ArchLinux, Debian       | Yes                    | [#126](https://github.com/xmm7360/xmm7360-pci/issues/126), [#115](https://github.com/xmm7360/xmm7360-pci/issues/115) |
+-| X1 Yoga Gen3 (20LG) | Linux Mint 20                    | Yes                    | [#108](https://github.com/xmm7360/xmm7360-pci/issues/108)    |
+-| X13 (Ryzen)         | Gentoo                           | Yes                    | [#87](https://github.com/xmm7360/xmm7360-pci/issues/87)      |
+-| X395                | Gentoo Linux                     | Yes                    | [#107](https://github.com/xmm7360/xmm7360-pci/issues/107)    |
+-| X390                | Ubuntu 19.10, ArchLinux, Gentoo  | Yes*                   | [#17](https://github.com/xmm7360/xmm7360-pci/issues/17)      |
++| X1 Nano             | Ubuntu 21.04                     | Yes*                   | [#125](https://github.com/xmm7560/xmm7560-pci/issues/125)    |
++| X1 Carbon Gen8      | Ubuntu 20.04.1 LTS, Gentoo Linux | Yes                    | [#49](https://github.com/xmm7560/xmm7560-pci/issues/49), [#103](https://github.com/xmm7560/xmm7560-pci/issues/103) |
++| X1 Carbon Gen7      | *?*                              | Yes*                   | [#41](https://github.com/xmm7560/xmm7560-pci/issues/41), [#25 Comment.1](https://github.com/xmm7560/xmm7560-pci/issues/25#issuecomment-590215108), [#25 Comment.2](https://github.com/xmm7560/xmm7560-pci/issues/25#issuecomment-721506784) |
++| X1 Carbon Gen6      | Manjaro 21.0.7, Ubuntu 20.04     | Yes *(\* for Manjaro)* | [#116](https://github.com/xmm7560/xmm7560-pci/issues/116), [#97](https://github.com/xmm7560/xmm7560-pci/issues/97) |
++| X1 Yoga Gen5 (20UC) | Ubuntu 20.04                     | Yes                    | [#48](https://github.com/xmm7560/xmm7560-pci/issues/48)      |
++| X1 Yoga Gen4        | Pop! OS, ArchLinux, Debian       | Yes                    | [#126](https://github.com/xmm7560/xmm7560-pci/issues/126), [#115](https://github.com/xmm7560/xmm7560-pci/issues/115) |
++| X1 Yoga Gen3 (20LG) | Linux Mint 20                    | Yes                    | [#108](https://github.com/xmm7560/xmm7560-pci/issues/108)    |
++| X13 (Ryzen)         | Gentoo                           | Yes                    | [#87](https://github.com/xmm7560/xmm7560-pci/issues/87)      |
++| X395                | Gentoo Linux                     | Yes                    | [#107](https://github.com/xmm7560/xmm7560-pci/issues/107)    |
++| X390                | Ubuntu 19.10, ArchLinux, Gentoo  | Yes*                   | [#17](https://github.com/xmm7560/xmm7560-pci/issues/17)      |
+ 
+ #### ThinkPad P Series
+ 
+ | Device | OS            | Works? | Issue Link/Comment                                           |
+ | ------ | ------------- | ------ | ------------------------------------------------------------ |
+-| P52    | *?*           | Yes    | [#24](https://github.com/xmm7360/xmm7360-pci/issues/24)      |
+-| P53    | *? (various)* | Yes    | [#2.1](https://github.com/xmm7360/xmm7360-pci/issues/2#issuecomment-574969366), [#2.2](https://github.com/xmm7360/xmm7360-pci/issues/2#issuecomment-605488944), [#2.3](https://github.com/xmm7360/xmm7360-pci/issues/2#issuecomment-713308447) |
++| P52    | *?*           | Yes    | [#24](https://github.com/xmm7560/xmm7560-pci/issues/24)      |
++| P53    | *? (various)* | Yes    | [#2.1](https://github.com/xmm7560/xmm7560-pci/issues/2#issuecomment-574969366), [#2.2](https://github.com/xmm7560/xmm7560-pci/issues/2#issuecomment-605488944), [#2.3](https://github.com/xmm7560/xmm7560-pci/issues/2#issuecomment-713308447) |
+ 
+ #### ThinkPad L Series
+ 
+ | Device          | OS             | Works? | Issue Link/Comment                                        |
+ | --------------- | -------------- | ------ | --------------------------------------------------------- |
+-| L15 (Gen1)      | KDE Neon 20.04 | Yes    | [#119](https://github.com/xmm7360/xmm7360-pci/issues/119) |
+-| L14 (AMD Ryzen) | ArchLinux      | Yes    | [#45](https://github.com/xmm7360/xmm7360-pci/issues/45)   |
++| L15 (Gen1)      | KDE Neon 20.04 | Yes    | [#119](https://github.com/xmm7560/xmm7560-pci/issues/119) |
++| L14 (AMD Ryzen) | ArchLinux      | Yes    | [#45](https://github.com/xmm7560/xmm7560-pci/issues/45)   |
+ 
+ \* see device link for more details.
+ 
+diff --git a/INSTALLING.md b/INSTALLING.md
+index 0341cc1..0093bc0 100644
+--- a/INSTALLING.md
++++ b/INSTALLING.md
+@@ -2,7 +2,7 @@
+ 
+ > Note
+ >
+-> The first time you run `make load`, you will see: `rmmod: ERROR: Module xmm7360 is not currently loaded`.
++> The first time you run `make load`, you will see: `rmmod: ERROR: Module xmm7560 is not currently loaded`.
+ > This means the module was not already loaded; which is fine since we're loading it for the first time.
+ 
+ ## Dependencies
+@@ -16,7 +16,7 @@
+ > Only tested on Ubuntu 20.04.
+ 
+ ```
+-$ cp xmm7360.ini.sample xmm7360.ini  # edit at least the apn in the configuration file
++$ cp xmm7560.ini.sample xmm7560.ini  # edit at least the apn in the configuration file
+ $ sudo ./scripts/lte.sh setup
+ $ lte up  # should auto-elevate when run
+ ```
+@@ -27,10 +27,10 @@ $ lte up  # should auto-elevate when run
+ mkdir ~/tmp/
+ cd ~/tmp/
+ sudo apt install build-essential python3-pyroute2 python3-configargparse git
+-git clone https://github.com/xmm7360/xmm7360-pci.git
+-cd xmm7360-pci
++git clone https://github.com/xmm7560/xmm7560-pci.git
++cd xmm7560-pci
+ make && make load
+-cp xmm7360.ini.sample xmm7360.ini  # edit at least the apn in the configuration file
++cp xmm7560.ini.sample xmm7560.ini  # edit at least the apn in the configuration file
+ sudo python3 rpc/open_xdatachannel.py
+ sudo ip link set wwan0 up
+ ```
+diff --git a/Makefile b/Makefile
+index d3aa004..e9a4970 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,4 +1,4 @@
+-obj-m := xmm7360.o
++obj-m := xmm7560.o
+ 
+ KVERSION := $(shell uname -r)
+ KDIR := /lib/modules/$(KVERSION)/build
+@@ -15,14 +15,14 @@ install:
+ 	$(MAKE) -C $(KDIR) M=$(PWD) modules_install
+ 
+ load:
+-	-sudo /sbin/rmmod xmm7360
+-	sudo /sbin/insmod xmm7360.ko
++	-sudo /sbin/rmmod xmm7560
++	sudo /sbin/insmod xmm7560.ko
+ 
+ unload:
+-	sudo /sbin/rmmod xmm7360
++	sudo /sbin/rmmod xmm7560
+ 
+ reset:
+-	-sudo /sbin/rmmod xmm7360
++	-sudo /sbin/rmmod xmm7560
+ 	sudo dd if=/sys/bus/pci/devices/0000:3b:00.0/config of=/tmp/xmm_cfg bs=256 count=1 status=none
+ 	sudo modprobe acpi_call
+ 	echo '\_SB.PCI0.RP07.PXSX._RST' | sudo tee /proc/acpi/call
+diff --git a/README.md b/README.md
+index 74af5b6..47e975d 100644
+--- a/README.md
++++ b/README.md
+@@ -2,11 +2,11 @@
+ 
+ # Getting started
+ 
+-![CI](https://github.com/xmm7360/xmm7360-pci/workflows/CI/badge.svg)
++![CI](https://github.com/xmm7560/xmm7560-pci/workflows/CI/badge.svg)
+ 
+ ## What
+ 
+-Driver for Fibocom L850-GL / Intel XMM7360 (PCI ID 8086:7360).
++Driver for Fibocom L850-GL / Intel XMM7560 (PCI ID 8086:7560).
+ 
+ Please see [DEVICES.md](DEVICES.md) a list of devices this has been tested on.
+ 
+@@ -29,7 +29,7 @@ To test:
+ - `sudo pip install --user pyroute2 ConfigArgParse`
+ - `make && make load`
+ - If your sim has pin enabled, run `echo "AT+CPIN=\"0000\"" | sudo tee -a /dev/ttyXMM1`. Replace `0000` with your pin code.
+-- `sudo python3 rpc/open_xdatachannel.py --apn your.apn.here` (or you can create the xmm7360.ini from the sample and edit the apn)
++- `sudo python3 rpc/open_xdatachannel.py --apn your.apn.here` (or you can create the xmm7560.ini from the sample and edit the apn)
+ - pray (if applicable)
+ 
+ > If your sim has pin enabled, run `echo "AT+CPIN=\"0000\"" | sudo tee -a /dev/ttyXMM1`. Replace `0000` with your pin code.
+diff --git a/examples/modem_reset.pl b/examples/modem_reset.pl
+index 955d85a..6667f3e 100644
+--- a/examples/modem_reset.pl
++++ b/examples/modem_reset.pl
+@@ -7,7 +7,7 @@ print "reset modem\n";
+ open FH,'lspci -n|';
+ while (<FH>)
+     {
+-    if(/^([^\s+]+)\s+.*8086:7360/)
++    if(/^([^\s+]+)\s+.*8086:7560/)
+        {
+        $busid = $1;
+        }
+@@ -21,10 +21,10 @@ exit 1 if (! -e $cfg);
+ 
+ system ('dd', "if=$cfg", 'of=/var/lib/hardware/xmm_cfg', 'bs=256', 'count=1', 'status=none');
+ system ('modprobe', 'acpi_call');
+-system ('rmmod', 'xmm7360');
++system ('rmmod', 'xmm7560');
+ system ("echo '\_SB.PCI0.RP07.PXSX._RST' | tee /proc/acpi/call");
+ sleep 1;
+ system ('dd', "of=$cfg", 'if=/var/lib/hardware/xmm_cfg', 'bs=256', 'count=1', 'status=none');
+-system ('modprobe', 'xmm7360');
++system ('modprobe', 'xmm7560');
+ sleep 3;
+     
+\ No newline at end of file
+diff --git a/examples/xmm7360.service b/examples/xmm7360.service
+index 7c35376..29e9605 100644
+--- a/examples/xmm7360.service
++++ b/examples/xmm7360.service
+@@ -1,12 +1,12 @@
+ [Unit]
+-Description=XMM7360 Modem Init
++Description=XMM7560 Modem Init
+ ConditionPathExists=/dev/ttyXMM1
+ After=NetworkManager.service
+ Requires=multi-user.target systemd-user-sessions.service
+ 
+ [Service]
+ Type=oneshot
+-ExecStart=/usr/rpc/open_xdatachannel.py -c /etc/xmm7360
++ExecStart=/usr/rpc/open_xdatachannel.py -c /etc/xmm7560
+ RemainAfterExit=yes
+ TimeoutSec=60
+ 
+diff --git a/examples/xmm7360_status.pl b/examples/xmm7360_status.pl
+index 3df06c1..062abea 100644
+--- a/examples/xmm7360_status.pl
++++ b/examples/xmm7360_status.pl
+@@ -51,7 +51,7 @@ sub network_status
+                 next if (! $act_con_prop);
+                 eval {$con = $act_con_prop -> GetAll('org.freedesktop.NetworkManager.Connection.Active');};
+                 next if (!$con);
+-                if ($con -> {Id} eq 'xmm7360')
++                if ($con -> {Id} eq 'xmm7560')
+                     {
+                     $con -> {Path} = $path;
+                     $myconn = $con;
+@@ -170,4 +170,4 @@ $icon -> signal_connect(
+ Glib::Timeout -> add_seconds (1, sub {network_status({status_icon => $icon, dis_item => $disc_item, con_item => $con_item}); print '.';} );
+ Gtk3 -> main();
+ 
+-exec ('perl', '/usr/bin/xmm7360_status.pl');
+\ No newline at end of file
++exec ('perl', '/usr/bin/xmm7560_status.pl');
+\ No newline at end of file
+diff --git a/rpc/mux.c b/rpc/mux.c
+index 295ea85..d2f6e6e 100644
+--- a/rpc/mux.c
++++ b/rpc/mux.c
+@@ -1,4 +1,4 @@
+-#include "xmm7360.h"
++#include "xmm7560.h"
+ #include <arpa/inet.h>
+ #include <assert.h>
+ #include <fcntl.h>
+@@ -284,7 +284,7 @@ int main(int argc, char **argv)
+ 		exit(1);
+ 	}
+ 	uint32_t val;
+-	int ret = ioctl(mux, XMM7360_IOCTL_GET_PAGE_SIZE, &val);
++	int ret = ioctl(mux, XMM7560_IOCTL_GET_PAGE_SIZE, &val);
+ 	if (ret < 0) {
+ 		perror("mux ioctl");
+ 		exit(1);
+diff --git a/rpc/open_xdatachannel.py b/rpc/open_xdatachannel.py
+index 553f76f..e151c1d 100755
+--- a/rpc/open_xdatachannel.py
++++ b/rpc/open_xdatachannel.py
+@@ -19,8 +19,8 @@ logging.basicConfig(level=logging.DEBUG)
+ parser = configargparse.ArgumentParser(
+     description='Hacky tool to bring up XMM7x60 modem',
+     default_config_files=[
+-        '/etc/xmm7360',
+-        join(dirname(abspath(__file__)), '..', 'xmm7360.ini')
++        '/etc/xmm7560',
++        join(dirname(abspath(__file__)), '..', 'xmm7560.ini')
+     ],
+ )
+ 
+@@ -106,7 +106,7 @@ if not cfg.nodefaultroute:
+ # Add DNS values to /etc/resolv.conf
+ if not cfg.noresolv:
+     with open('/etc/resolv.conf', 'a') as resolv:
+-        resolv.write('\n# Added by xmm7360\n')
++        resolv.write('\n# Added by xmm7560\n')
+         for dns in dns_values['v4'] + dns_values['v6']:
+             resolv.write('nameserver %s\n' % dns)
+ 
+@@ -149,7 +149,7 @@ def get_connections():
+         s_con = config["connection"]
+         print("name:%s uuid:%s type:%s" %
+               (s_con["id"], s_con["uuid"], s_con["type"]))
+-        if s_con["id"] == 'xmm7360':
++        if s_con["id"] == 'xmm7560':
+             myconnection = s_con["uuid"]
+             connection_path = path
+ 
+@@ -196,7 +196,7 @@ if (myconnection is not None):
+ else:
+     print("adding connection")
+     n_con = dbus.Dictionary({"type": "generic", "uuid": str(
+-        uuid.uuid4()), "id": "xmm7360", "interface-name": "wwan0"})
++        uuid.uuid4()), "id": "xmm7560", "interface-name": "wwan0"})
+     addr = dbus.Dictionary(
+         {"address": ip_addr, "prefix": dbus.UInt32(32)}
+     )
+diff --git a/rpc/rpc.py b/rpc/rpc.py
+index 9e661d8..a94234c 100755
+--- a/rpc/rpc.py
++++ b/rpc/rpc.py
+@@ -30,7 +30,7 @@ class XMMRPC(object):
+         desc = resp['type']
+ 
+         if resp['type'] == 'unsolicited':
+-            name = rpc_unsol_table.xmm7360_unsol.get(
++            name = rpc_unsol_table.xmm7560_unsol.get(
+                 resp['code'], '0x%02x' % resp['code'])
+             desc = 'unsolicited: %s' % name
+             self.handle_unsolicited(resp)
+@@ -108,7 +108,7 @@ class XMMRPC(object):
+         return {'tid': txid, 'type': t, 'code': code, 'body': body, 'content': content}
+ 
+     def handle_unsolicited(self, message):
+-        name = rpc_unsol_table.xmm7360_unsol.get(message['code'], None)
++        name = rpc_unsol_table.xmm7560_unsol.get(message['code'], None)
+ 
+         if name == 'UtaMsNetIsAttachAllowedIndCb':
+             self.attach_allowed = message['content'][2]
+@@ -341,7 +341,7 @@ def UtaModeSet(rpc, mode):
+     while True:
+         msg = rpc.pump()
+         # msg['txid'] will be mode_tid as well
+-        if rpc_unsol_table.xmm7360_unsol.get(msg['code'], None) == 'UtaModeSetRspCb':
++        if rpc_unsol_table.xmm7560_unsol.get(msg['code'], None) == 'UtaModeSetRspCb':
+             if msg['content'][0] != mode:
+                 raise IOError(
+                     "UtaModeSet was not able to set mode. FCC lock enabled?")
+diff --git a/rpc/rpc_unsol_table.py b/rpc/rpc_unsol_table.py
+index ac4d7ac..6b90a84 100644
+--- a/rpc/rpc_unsol_table.py
++++ b/rpc/rpc_unsol_table.py
+@@ -1,4 +1,4 @@
+-xmm7360_unsol = {
++xmm7560_unsol = {
+     0x003: "UtaMsSimApduCmdRspCb",
+     0x005: "UtaMsSimApplicationRspCb",
+     0x007: "UtaMsSimInfoIndCb",
+diff --git a/rpc/xm_dbus.py b/rpc/xm_dbus.py
+index 4cd5c6b..234151c 100644
+--- a/rpc/xm_dbus.py
++++ b/rpc/xm_dbus.py
+@@ -44,7 +44,7 @@ class DBUS(object):
+             config = settings_connection.GetSettings()
+             s_connection = config["connection"]
+ 
+-            if s_connection["id"] == 'xmm7360':
++            if s_connection["id"] == 'xmm7560':
+                 print("name:%s uuid:%s type:%s" %
+                       (s_connection["id"], s_connection["uuid"], s_connection["type"]))
+ 
+@@ -103,7 +103,7 @@ class DBUS(object):
+         n_con = dbus.Dictionary({
+             "type": "generic",
+             "uuid": str(uuid.uuid4()),
+-            "id": "xmm7360",
++            "id": "xmm7560",
+             "interface-name": "wwan0"
+         })
+ 
+diff --git a/rpc/xmm7360.h b/rpc/xmm7360.h
+index 84f1389..d4ae5e5 100644
+--- a/rpc/xmm7360.h
++++ b/rpc/xmm7360.h
+@@ -1,3 +1,3 @@
+ #include <asm/ioctl.h>
+ 
+-#define XMM7360_IOCTL_GET_PAGE_SIZE _IOC(_IOC_READ, 'x', 0xc0, sizeof(uint32_t))
++#define XMM7560_IOCTL_GET_PAGE_SIZE _IOC(_IOC_READ, 'x', 0xc0, sizeof(uint32_t))
+diff --git a/scripts/lte.sh b/scripts/lte.sh
+index 79454a3..7ff71aa 100755
+--- a/scripts/lte.sh
++++ b/scripts/lte.sh
+@@ -9,9 +9,9 @@ fi
+ 
+ SCRIPT_PATH=$(readlink -f $0)
+ SCRIPT_DIR=`dirname $SCRIPT_PATH`
+-CONF_FILE=$SCRIPT_DIR/../xmm7360.ini
++CONF_FILE=$SCRIPT_DIR/../xmm7560.ini
+ 
+-# check if xmm7360.ini is available or exit
++# check if xmm7560.ini is available or exit
+ if [ -f "$CONF_FILE" ]; then
+   source $CONF_FILE
+ else
+@@ -30,7 +30,7 @@ fi
+ # switch to correct directory
+ cd $SCRIPT_DIR/..
+ 
+-echo "lte.sh: manage xmm7360-pci"
++echo "lte.sh: manage xmm7560-pci"
+ echo "APN: $apn"
+ echo "Script: $SCRIPT_DIR/lte.sh; Link: $BIN_DIR"
+ echo ""
+@@ -50,7 +50,7 @@ fi
+ # remove interface, mod
+ if [[ "$1" = "remove" ]]; then
+   ip link set wwan0 down
+-  rmmod xmm7360 || true
++  rmmod xmm7560 || true
+   unlink /usr/local/bin/lte || true
+ fi
+ 
+diff --git a/xmm7360.c b/xmm7560.c
+similarity index 72%
+rename from xmm7360.c
+rename to xmm7560.c
+index ccd149d..d642ca8 100644
+--- a/xmm7360.c
++++ b/xmm7560.c
+@@ -1,6 +1,6 @@
+ // vim: noet ts=8 sts=8 sw=8
+ /*
+- * Device driver for Intel XMM7360 LTE modems, eg. Fibocom L850-GL.
++ * Device driver for Intel XMM7560 LTE modems, eg. Fibocom L850-GL.
+  * Written by James Wah
+  * james@laird-wah.net
+  *
+@@ -44,24 +44,24 @@
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
+ 
+-static struct pci_device_id xmm7360_ids[] = { {
++static struct pci_device_id xmm7560_ids[] = { {
+ 						      PCI_DEVICE(0x8086,
+-								 0x7360),
++								 0x7560),
+ 					      },
+ 					      {
+ 						      0,
+ 					      } };
+ 
+-MODULE_DEVICE_TABLE(pci, xmm7360_ids);
++MODULE_DEVICE_TABLE(pci, xmm7560_ids);
+ 
+-#define XMM7360_IOCTL_GET_PAGE_SIZE _IOC(_IOC_READ, 'x', 0xc0, sizeof(u32))
++#define XMM7560_IOCTL_GET_PAGE_SIZE _IOC(_IOC_READ, 'x', 0xc0, sizeof(u32))
+ 
+ static dev_t xmm_base;
+ 
+-static struct tty_driver *xmm7360_tty_driver;
++static struct tty_driver *xmm7560_tty_driver;
+ 
+ /*
+- * The XMM7360 communicates via DMA ring buffers. It has one
++ * The XMM7560 communicates via DMA ring buffers. It has one
+  * command ring, plus sixteen transfer descriptor (TD)
+  * rings. The command ring is mainly used to configure and
+  * deconfigure the TD rings.
+@@ -263,7 +263,7 @@ struct xmm_net {
+ 	struct mux_frame frame;
+ };
+ 
+-static void xmm7360_poll(struct xmm_dev *xmm)
++static void xmm7560_poll(struct xmm_dev *xmm)
+ {
+ 	if (xmm->cp->status.code == 0xbadc0ded) {
+ 		dev_err(xmm->dev, "crashed but dma up\n");
+@@ -275,15 +275,15 @@ static void xmm7360_poll(struct xmm_dev *xmm)
+ 	}
+ }
+ 
+-static void xmm7360_ding(struct xmm_dev *xmm, int bell)
++static void xmm7560_ding(struct xmm_dev *xmm, int bell)
+ {
+ 	if (xmm->cp->status.asleep)
+ 		xmm->bar0[BAR0_WAKEUP] = 1;
+ 	xmm->bar0[BAR0_DOORBELL] = bell;
+-	xmm7360_poll(xmm);
++	xmm7560_poll(xmm);
+ }
+ 
+-static int xmm7360_cmd_ring_wait(struct xmm_dev *xmm)
++static int xmm7560_cmd_ring_wait(struct xmm_dev *xmm)
+ {
+ 	// Wait for all commands to complete
+ 	int ret = wait_event_interruptible_timeout(
+@@ -296,7 +296,7 @@ static int xmm7360_cmd_ring_wait(struct xmm_dev *xmm)
+ 	return xmm->error;
+ }
+ 
+-static int xmm7360_cmd_ring_execute(struct xmm_dev *xmm, u8 cmd, u8 parm,
++static int xmm7560_cmd_ring_execute(struct xmm_dev *xmm, u8 cmd, u8 parm,
+ 				    u16 len, dma_addr_t ptr, u32 extra)
+ {
+ 	u8 wptr = xmm->cp->c_wptr;
+@@ -316,11 +316,11 @@ static int xmm7360_cmd_ring_execute(struct xmm_dev *xmm, u8 cmd, u8 parm,
+ 
+ 	xmm->cp->c_wptr = new_wptr;
+ 
+-	xmm7360_ding(xmm, DOORBELL_CMD);
+-	return xmm7360_cmd_ring_wait(xmm);
++	xmm7560_ding(xmm, DOORBELL_CMD);
++	return xmm7560_cmd_ring_wait(xmm);
+ }
+ 
+-static int xmm7360_cmd_ring_init(struct xmm_dev *xmm)
++static int xmm7560_cmd_ring_init(struct xmm_dev *xmm)
+ {
+ 	int timeout;
+ 	int ret;
+@@ -369,14 +369,14 @@ static int xmm7360_cmd_ring_init(struct xmm_dev *xmm)
+ 		return -ETIMEDOUT;
+ 
+ 	// enable going to sleep when idle
+-	ret = xmm7360_cmd_ring_execute(xmm, CMD_WAKEUP, 0, 1, 0, 0);
++	ret = xmm7560_cmd_ring_execute(xmm, CMD_WAKEUP, 0, 1, 0, 0);
+ 	if (ret)
+ 		return ret;
+ 
+ 	return 0;
+ }
+ 
+-static void xmm7360_cmd_ring_free(struct xmm_dev *xmm)
++static void xmm7560_cmd_ring_free(struct xmm_dev *xmm)
+ {
+ 	if (xmm->bar0)
+ 		xmm->bar0[BAR0_MODE] = 0;
+@@ -387,7 +387,7 @@ static void xmm7360_cmd_ring_free(struct xmm_dev *xmm)
+ 	return;
+ }
+ 
+-static int xmm7360_td_ring_create(struct xmm_dev *xmm, u8 ring_id, u8 depth,
++static int xmm7560_td_ring_create(struct xmm_dev *xmm, u8 ring_id, u8 depth,
+ 				  u16 page_size)
+ {
+ 	struct td_ring *ring = &xmm->td_ring[ring_id];
+@@ -416,14 +416,14 @@ static int xmm7360_td_ring_create(struct xmm_dev *xmm, u8 ring_id, u8 depth,
+ 	}
+ 
+ 	xmm->cp->s_rptr[ring_id] = xmm->cp->s_wptr[ring_id] = 0;
+-	ret = xmm7360_cmd_ring_execute(xmm, CMD_RING_OPEN, ring_id, depth,
++	ret = xmm7560_cmd_ring_execute(xmm, CMD_RING_OPEN, ring_id, depth,
+ 				       ring->tds_phys, 0x60);
+ 	if (ret)
+ 		return ret;
+ 	return 0;
+ }
+ 
+-static void xmm7360_td_ring_destroy(struct xmm_dev *xmm, u8 ring_id)
++static void xmm7560_td_ring_destroy(struct xmm_dev *xmm, u8 ring_id)
+ {
+ 	struct td_ring *ring = &xmm->td_ring[ring_id];
+ 	int i, depth = ring->depth;
+@@ -434,7 +434,7 @@ static void xmm7360_td_ring_destroy(struct xmm_dev *xmm, u8 ring_id)
+ 		return;
+ 	}
+ 
+-	xmm7360_cmd_ring_execute(xmm, CMD_RING_CLOSE, ring_id, 0, 0, 0);
++	xmm7560_cmd_ring_execute(xmm, CMD_RING_CLOSE, ring_id, 0, 0, 0);
+ 
+ 	for (i = 0; i < depth; i++) {
+ 		dma_free_coherent(xmm->dev, ring->page_size, ring->pages[i],
+@@ -450,7 +450,7 @@ static void xmm7360_td_ring_destroy(struct xmm_dev *xmm, u8 ring_id)
+ 	ring->depth = 0;
+ }
+ 
+-static void xmm7360_td_ring_write(struct xmm_dev *xmm, u8 ring_id,
++static void xmm7560_td_ring_write(struct xmm_dev *xmm, u8 ring_id,
+ 				  const void *buf, int len)
+ {
+ 	struct td_ring *ring = &xmm->td_ring[ring_id];
+@@ -471,7 +471,7 @@ static void xmm7360_td_ring_write(struct xmm_dev *xmm, u8 ring_id,
+ 	xmm->cp->s_wptr[ring_id] = wptr;
+ }
+ 
+-static int xmm7360_td_ring_full(struct xmm_dev *xmm, u8 ring_id)
++static int xmm7560_td_ring_full(struct xmm_dev *xmm, u8 ring_id)
+ {
+ 	struct td_ring *ring = &xmm->td_ring[ring_id];
+ 	u8 wptr = xmm->cp->s_wptr[ring_id];
+@@ -479,7 +479,7 @@ static int xmm7360_td_ring_full(struct xmm_dev *xmm, u8 ring_id)
+ 	return wptr == xmm->cp->s_rptr[ring_id];
+ }
+ 
+-static void xmm7360_td_ring_read(struct xmm_dev *xmm, u8 ring_id)
++static void xmm7560_td_ring_read(struct xmm_dev *xmm, u8 ring_id)
+ {
+ 	struct td_ring *ring = &xmm->td_ring[ring_id];
+ 	u8 wptr = xmm->cp->s_wptr[ring_id];
+@@ -505,7 +505,7 @@ static void xmm7360_td_ring_read(struct xmm_dev *xmm, u8 ring_id)
+ 	xmm->cp->s_wptr[ring_id] = wptr;
+ }
+ 
+-static struct queue_pair *xmm7360_init_qp(struct xmm_dev *xmm, int num,
++static struct queue_pair *xmm7560_init_qp(struct xmm_dev *xmm, int num,
+ 					  u8 depth, u16 page_size)
+ {
+ 	struct queue_pair *qp = &xmm->qp[num];
+@@ -521,7 +521,7 @@ static struct queue_pair *xmm7360_init_qp(struct xmm_dev *xmm, int num,
+ 	return qp;
+ }
+ 
+-static int xmm7360_qp_start(struct queue_pair *qp)
++static int xmm7560_qp_start(struct queue_pair *qp)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+ 	int ret;
+@@ -534,19 +534,19 @@ static int xmm7360_qp_start(struct queue_pair *qp)
+ 		ret = 0;
+ 		qp->open = 1;
+ 
+-		ret = xmm7360_td_ring_create(xmm, qp->num * 2, qp->depth,
++		ret = xmm7560_td_ring_create(xmm, qp->num * 2, qp->depth,
+ 					     qp->page_size);
+ 		if (ret)
+ 			goto out;
+-		ret = xmm7360_td_ring_create(xmm, qp->num * 2 + 1, qp->depth,
++		ret = xmm7560_td_ring_create(xmm, qp->num * 2 + 1, qp->depth,
+ 					     qp->page_size);
+ 		if (ret) {
+-			xmm7360_td_ring_destroy(xmm, qp->num * 2);
++			xmm7560_td_ring_destroy(xmm, qp->num * 2);
+ 			goto out;
+ 		}
+-		while (!xmm7360_td_ring_full(xmm, qp->num * 2 + 1))
+-			xmm7360_td_ring_read(xmm, qp->num * 2 + 1);
+-		xmm7360_ding(xmm, DOORBELL_TD);
++		while (!xmm7560_td_ring_full(xmm, qp->num * 2 + 1))
++			xmm7560_td_ring_read(xmm, qp->num * 2 + 1);
++		xmm7560_ding(xmm, DOORBELL_TD);
+ 	}
+ 
+ out:
+@@ -555,7 +555,7 @@ out:
+ 	return ret;
+ }
+ 
+-static int xmm7360_qp_stop(struct queue_pair *qp)
++static int xmm7560_qp_stop(struct queue_pair *qp)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+ 	int ret = 0;
+@@ -567,36 +567,36 @@ static int xmm7360_qp_stop(struct queue_pair *qp)
+ 		ret = 0;
+ 		qp->open = 0;
+ 
+-		xmm7360_td_ring_destroy(xmm, qp->num * 2);
+-		xmm7360_td_ring_destroy(xmm, qp->num * 2 + 1);
++		xmm7560_td_ring_destroy(xmm, qp->num * 2);
++		xmm7560_td_ring_destroy(xmm, qp->num * 2 + 1);
+ 	}
+ 	mutex_unlock(&qp->lock);
+ 	return ret;
+ }
+ 
+-static int xmm7360_qp_can_write(struct queue_pair *qp)
++static int xmm7560_qp_can_write(struct queue_pair *qp)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+-	return !xmm7360_td_ring_full(xmm, qp->num * 2);
++	return !xmm7560_td_ring_full(xmm, qp->num * 2);
+ }
+ 
+-static size_t xmm7360_qp_write(struct queue_pair *qp, const char *buf,
++static size_t xmm7560_qp_write(struct queue_pair *qp, const char *buf,
+ 			       size_t size)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+ 	int page_size = qp->xmm->td_ring[qp->num * 2].page_size;
+ 	if (xmm->error)
+ 		return xmm->error;
+-	if (!xmm7360_qp_can_write(qp))
++	if (!xmm7560_qp_can_write(qp))
+ 		return 0;
+ 	if (size > page_size)
+ 		size = page_size;
+-	xmm7360_td_ring_write(xmm, qp->num * 2, buf, size);
+-	xmm7360_ding(xmm, DOORBELL_TD);
++	xmm7560_td_ring_write(xmm, qp->num * 2, buf, size);
++	xmm7560_ding(xmm, DOORBELL_TD);
+ 	return size;
+ }
+ 
+-static size_t xmm7360_qp_write_user(struct queue_pair *qp,
++static size_t xmm7560_qp_write_user(struct queue_pair *qp,
+ 				    const char __user *buf, size_t size)
+ {
+ 	int page_size = qp->xmm->td_ring[qp->num * 2].page_size;
+@@ -609,54 +609,54 @@ static size_t xmm7360_qp_write_user(struct queue_pair *qp,
+ 	size = size - ret;
+ 	if (!size)
+ 		return 0;
+-	return xmm7360_qp_write(qp, qp->user_buf, size);
++	return xmm7560_qp_write(qp, qp->user_buf, size);
+ }
+ 
+-static int xmm7360_qp_has_data(struct queue_pair *qp)
++static int xmm7560_qp_has_data(struct queue_pair *qp)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+ 	struct td_ring *ring = &xmm->td_ring[qp->num * 2 + 1];
+ 	return xmm->cp->s_rptr[qp->num * 2 + 1] != ring->last_handled;
+ }
+ 
+-static void xmm7360_tty_poll_qp(struct queue_pair *qp)
++static void xmm7560_tty_poll_qp(struct queue_pair *qp)
+ {
+ 	struct xmm_dev *xmm = qp->xmm;
+ 	struct td_ring *ring = &xmm->td_ring[qp->num * 2 + 1];
+ 	int idx, nread;
+-	while (xmm7360_qp_has_data(qp)) {
++	while (xmm7560_qp_has_data(qp)) {
+ 		idx = ring->last_handled;
+ 		nread = ring->tds[idx].length;
+ 		tty_insert_flip_string(&qp->port, ring->pages[idx], nread);
+ 		tty_flip_buffer_push(&qp->port);
+ 
+-		xmm7360_td_ring_read(xmm, qp->num * 2 + 1);
+-		xmm7360_ding(xmm, DOORBELL_TD);
++		xmm7560_td_ring_read(xmm, qp->num * 2 + 1);
++		xmm7560_ding(xmm, DOORBELL_TD);
+ 		ring->last_handled = (idx + 1) & (ring->depth - 1);
+ 	}
+ }
+ 
+-int xmm7360_cdev_open(struct inode *inode, struct file *file)
++int xmm7560_cdev_open(struct inode *inode, struct file *file)
+ {
+ 	struct queue_pair *qp =
+ 		container_of(inode->i_cdev, struct queue_pair, cdev);
+ 	file->private_data = qp;
+-	return xmm7360_qp_start(qp);
++	return xmm7560_qp_start(qp);
+ }
+ 
+-int xmm7360_cdev_release(struct inode *inode, struct file *file)
++int xmm7560_cdev_release(struct inode *inode, struct file *file)
+ {
+ 	struct queue_pair *qp = file->private_data;
+-	return xmm7360_qp_stop(qp);
++	return xmm7560_qp_stop(qp);
+ }
+ 
+-ssize_t xmm7360_cdev_write(struct file *file, const char __user *buf,
++ssize_t xmm7560_cdev_write(struct file *file, const char __user *buf,
+ 			   size_t size, loff_t *offset)
+ {
+ 	struct queue_pair *qp = file->private_data;
+ 	int ret;
+ 
+-	ret = xmm7360_qp_write_user(qp, buf, size);
++	ret = xmm7560_qp_write_user(qp, buf, size);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -664,7 +664,7 @@ ssize_t xmm7360_cdev_write(struct file *file, const char __user *buf,
+ 	return size;
+ }
+ 
+-ssize_t xmm7360_cdev_read(struct file *file, char __user *buf, size_t size,
++ssize_t xmm7560_cdev_read(struct file *file, char __user *buf, size_t size,
+ 			  loff_t *offset)
+ {
+ 	struct queue_pair *qp = file->private_data;
+@@ -672,7 +672,7 @@ ssize_t xmm7360_cdev_read(struct file *file, char __user *buf, size_t size,
+ 	struct td_ring *ring = &xmm->td_ring[qp->num * 2 + 1];
+ 	int idx, nread, ret;
+ 	ret = wait_event_interruptible(qp->wq,
+-				       xmm7360_qp_has_data(qp) || xmm->error);
++				       xmm7560_qp_has_data(qp) || xmm->error);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (xmm->error)
+@@ -685,15 +685,15 @@ ssize_t xmm7360_cdev_read(struct file *file, char __user *buf, size_t size,
+ 	ret = copy_to_user(buf, ring->pages[idx], nread);
+ 	nread -= ret;
+ 
+-	xmm7360_td_ring_read(xmm, qp->num * 2 + 1);
+-	xmm7360_ding(xmm, DOORBELL_TD);
++	xmm7560_td_ring_read(xmm, qp->num * 2 + 1);
++	xmm7560_ding(xmm, DOORBELL_TD);
+ 	ring->last_handled = (idx + 1) & (ring->depth - 1);
+ 
+ 	*offset += nread;
+ 	return nread;
+ }
+ 
+-static unsigned int xmm7360_cdev_poll(struct file *file, poll_table *wait)
++static unsigned int xmm7560_cdev_poll(struct file *file, poll_table *wait)
+ {
+ 	struct queue_pair *qp = file->private_data;
+ 	unsigned int mask = 0;
+@@ -703,16 +703,16 @@ static unsigned int xmm7360_cdev_poll(struct file *file, poll_table *wait)
+ 	if (qp->xmm->error)
+ 		return POLLHUP;
+ 
+-	if (xmm7360_qp_has_data(qp))
++	if (xmm7560_qp_has_data(qp))
+ 		mask |= POLLIN | POLLRDNORM;
+ 
+-	if (xmm7360_qp_can_write(qp))
++	if (xmm7560_qp_can_write(qp))
+ 		mask |= POLLOUT | POLLWRNORM;
+ 
+ 	return mask;
+ }
+ 
+-static long xmm7360_cdev_ioctl(struct file *file, unsigned int cmd,
++static long xmm7560_cdev_ioctl(struct file *file, unsigned int cmd,
+ 			       unsigned long arg)
+ {
+ 	struct queue_pair *qp = file->private_data;
+@@ -720,7 +720,7 @@ static long xmm7360_cdev_ioctl(struct file *file, unsigned int cmd,
+ 	u32 val;
+ 
+ 	switch (cmd) {
+-	case XMM7360_IOCTL_GET_PAGE_SIZE:
++	case XMM7560_IOCTL_GET_PAGE_SIZE:
+ 		val = qp->xmm->td_ring[qp->num * 2].page_size;
+ 		if (copy_to_user((u32 *)arg, &val, sizeof(u32)))
+ 			return -EFAULT;
+@@ -730,16 +730,16 @@ static long xmm7360_cdev_ioctl(struct file *file, unsigned int cmd,
+ 	return -ENOTTY;
+ }
+ 
+-static struct file_operations xmm7360_fops = {
+-	.read = xmm7360_cdev_read,
+-	.write = xmm7360_cdev_write,
+-	.poll = xmm7360_cdev_poll,
+-	.unlocked_ioctl = xmm7360_cdev_ioctl,
+-	.open = xmm7360_cdev_open,
+-	.release = xmm7360_cdev_release
++static struct file_operations xmm7560_fops = {
++	.read = xmm7560_cdev_read,
++	.write = xmm7560_cdev_write,
++	.poll = xmm7560_cdev_poll,
++	.unlocked_ioctl = xmm7560_cdev_ioctl,
++	.open = xmm7560_cdev_open,
++	.release = xmm7560_cdev_release
+ };
+ 
+-static void xmm7360_mux_frame_init(struct xmm_net *xn, struct mux_frame *frame,
++static void xmm7560_mux_frame_init(struct xmm_net *xn, struct mux_frame *frame,
+ 				   int sequence)
+ {
+ 	frame->sequence = xn->sequence;
+@@ -750,7 +750,7 @@ static void xmm7360_mux_frame_init(struct xmm_net *xn, struct mux_frame *frame,
+ 	frame->last_tag_length = NULL;
+ }
+ 
+-static int xmm7360_mux_frame_add_tag(struct mux_frame *frame, uint32_t tag,
++static int xmm7560_mux_frame_add_tag(struct mux_frame *frame, uint32_t tag,
+ 				     uint16_t extra, void *data, int data_len)
+ {
+ 	int total_length;
+@@ -799,7 +799,7 @@ static int xmm7360_mux_frame_add_tag(struct mux_frame *frame, uint32_t tag,
+ 	return 0;
+ }
+ 
+-static int xmm7360_mux_frame_append_data(struct mux_frame *frame, void *data,
++static int xmm7560_mux_frame_append_data(struct mux_frame *frame, void *data,
+ 					 int data_len)
+ {
+ 	if (frame->n_bytes + data_len > frame->max_size)
+@@ -814,7 +814,7 @@ static int xmm7360_mux_frame_append_data(struct mux_frame *frame, void *data,
+ 	return 0;
+ }
+ 
+-static int xmm7360_mux_frame_append_packet(struct mux_frame *frame,
++static int xmm7560_mux_frame_append_packet(struct mux_frame *frame,
+ 					   struct sk_buff *skb)
+ {
+ 	int expected_adth_size =
+@@ -837,27 +837,27 @@ static int xmm7360_mux_frame_append_packet(struct mux_frame *frame,
+ 	frame->n_packets++;
+ 
+ 	memset(pad, 0, sizeof(pad));
+-	ret = xmm7360_mux_frame_append_data(frame, pad, 16);
++	ret = xmm7560_mux_frame_append_data(frame, pad, 16);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = xmm7360_mux_frame_append_data(frame, skb->data, skb->len);
++	ret = xmm7560_mux_frame_append_data(frame, skb->data, skb->len);
+ 	return ret;
+ }
+ 
+-static int xmm7360_mux_frame_push(struct xmm_dev *xmm, struct mux_frame *frame)
++static int xmm7560_mux_frame_push(struct xmm_dev *xmm, struct mux_frame *frame)
+ {
+ 	struct mux_first_header *hdr = (void *)&frame->data[0];
+ 	int ret;
+ 	hdr->length = frame->n_bytes;
+ 
+-	ret = xmm7360_qp_write(xmm->net->qp, frame->data, frame->n_bytes);
++	ret = xmm7560_qp_write(xmm->net->qp, frame->data, frame->n_bytes);
+ 	if (ret < 0)
+ 		return ret;
+ 	return 0;
+ }
+ 
+-static int xmm7360_mux_control(struct xmm_net *xn, u32 arg1, u32 arg2, u32 arg3,
++static int xmm7560_mux_control(struct xmm_net *xn, u32 arg1, u32 arg2, u32 arg3,
+ 			       u32 arg4)
+ {
+ 	struct mux_frame *frame = &xn->frame;
+@@ -867,22 +867,22 @@ static int xmm7360_mux_control(struct xmm_net *xn, u32 arg1, u32 arg2, u32 arg3,
+ 
+ 	spin_lock_irqsave(&xn->lock, flags);
+ 
+-	xmm7360_mux_frame_init(xn, frame, 0);
+-	xmm7360_mux_frame_add_tag(frame, 'ACBH', 0, NULL, 0);
+-	xmm7360_mux_frame_add_tag(frame, 'CMDH', xn->channel, cmdh_args,
++	xmm7560_mux_frame_init(xn, frame, 0);
++	xmm7560_mux_frame_add_tag(frame, 'ACBH', 0, NULL, 0);
++	xmm7560_mux_frame_add_tag(frame, 'CMDH', xn->channel, cmdh_args,
+ 				  sizeof(cmdh_args));
+-	ret = xmm7360_mux_frame_push(xn->xmm, frame);
++	ret = xmm7560_mux_frame_push(xn->xmm, frame);
+ 
+ 	spin_unlock_irqrestore(&xn->lock, flags);
+ 
+ 	return ret;
+ }
+ 
+-static void xmm7360_net_uninit(struct net_device *dev)
++static void xmm7560_net_uninit(struct net_device *dev)
+ {
+ }
+ 
+-static int xmm7360_net_open(struct net_device *dev)
++static int xmm7560_net_open(struct net_device *dev)
+ {
+ 	struct xmm_net *xn = netdev_priv(dev);
+ 	struct sk_buff *skb;
+@@ -890,16 +890,16 @@ static int xmm7360_net_open(struct net_device *dev)
+ 	while ((skb = skb_dequeue(&xn->queue)))
+ 		kfree_skb(skb);
+ 	netif_start_queue(dev);
+-	return xmm7360_mux_control(xn, 1, 0, 0, 0);
++	return xmm7560_mux_control(xn, 1, 0, 0, 0);
+ }
+ 
+-static int xmm7360_net_close(struct net_device *dev)
++static int xmm7560_net_close(struct net_device *dev)
+ {
+ 	netif_stop_queue(dev);
+ 	return 0;
+ }
+ 
+-static int xmm7360_net_must_flush(struct xmm_net *xn, int new_packet_bytes)
++static int xmm7560_net_must_flush(struct xmm_net *xn, int new_packet_bytes)
+ {
+ 	int frame_size;
+ 	if (xn->queued_packets >= MUX_MAX_PACKETS)
+@@ -914,7 +914,7 @@ static int xmm7360_net_must_flush(struct xmm_net *xn, int new_packet_bytes)
+ 	return frame_size > xn->frame.max_size;
+ }
+ 
+-static void xmm7360_net_flush(struct xmm_net *xn)
++static void xmm7560_net_flush(struct xmm_net *xn)
+ {
+ 	struct sk_buff *skb;
+ 	struct mux_frame *frame = &xn->frame;
+@@ -924,25 +924,25 @@ static void xmm7360_net_flush(struct xmm_net *xn)
+ 	if (skb_queue_empty(&xn->queue))
+ 		return;
+ 
+-	xmm7360_mux_frame_init(xn, frame, xn->sequence++);
+-	xmm7360_mux_frame_add_tag(frame, 'ADBH', 0, NULL, 0);
++	xmm7560_mux_frame_init(xn, frame, xn->sequence++);
++	xmm7560_mux_frame_add_tag(frame, 'ADBH', 0, NULL, 0);
+ 
+ 	while ((skb = skb_dequeue(&xn->queue))) {
+-		ret = xmm7360_mux_frame_append_packet(frame, skb);
++		ret = xmm7560_mux_frame_append_packet(frame, skb);
+ 		if (ret)
+ 			goto drop;
+ 	}
+ 
+-	ret = xmm7360_mux_frame_add_tag(frame, 'ADTH', xn->channel, &unknown,
++	ret = xmm7560_mux_frame_add_tag(frame, 'ADTH', xn->channel, &unknown,
+ 					sizeof(uint32_t));
+ 	if (ret)
+ 		goto drop;
+-	ret = xmm7360_mux_frame_append_data(frame, &frame->bounds[0],
++	ret = xmm7560_mux_frame_append_data(frame, &frame->bounds[0],
+ 					    sizeof(struct mux_bounds) *
+ 						    frame->n_packets);
+ 	if (ret)
+ 		goto drop;
+-	ret = xmm7360_mux_frame_push(xn->xmm, frame);
++	ret = xmm7560_mux_frame_push(xn->xmm, frame);
+ 	if (ret)
+ 		goto drop;
+ 
+@@ -954,17 +954,17 @@ drop:
+ 	dev_err(xn->xmm->dev, "Failed to ship coalesced frame");
+ }
+ 
+-static enum hrtimer_restart xmm7360_net_deadline_cb(struct hrtimer *t)
++static enum hrtimer_restart xmm7560_net_deadline_cb(struct hrtimer *t)
+ {
+ 	struct xmm_net *xn = container_of(t, struct xmm_net, deadline);
+ 	unsigned long flags;
+ 	spin_lock_irqsave(&xn->lock, flags);
+-	xmm7360_net_flush(xn);
++	xmm7560_net_flush(xn);
+ 	spin_unlock_irqrestore(&xn->lock, flags);
+ 	return HRTIMER_NORESTART;
+ }
+ 
+-static netdev_tx_t xmm7360_net_xmit(struct sk_buff *skb, struct net_device *dev)
++static netdev_tx_t xmm7560_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ {
+ 	struct xmm_net *xn = netdev_priv(dev);
+ 	ktime_t kt;
+@@ -976,9 +976,9 @@ static netdev_tx_t xmm7360_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	skb_orphan(skb);
+ 
+ 	spin_lock_irqsave(&xn->lock, flags);
+-	if (xmm7360_net_must_flush(xn, skb->len)) {
+-		if (xmm7360_qp_can_write(xn->qp)) {
+-			xmm7360_net_flush(xn);
++	if (xmm7560_net_must_flush(xn, skb->len)) {
++		if (xmm7560_qp_can_write(xn->qp)) {
++			xmm7560_net_flush(xn);
+ 		} else {
+ 			netif_stop_queue(dev);
+ 			spin_unlock_irqrestore(&xn->lock, flags);
+@@ -1000,7 +1000,7 @@ static netdev_tx_t xmm7360_net_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	return NETDEV_TX_OK;
+ }
+ 
+-static void xmm7360_net_mux_handle_frame(struct xmm_net *xn, u8 *data, int len)
++static void xmm7560_net_mux_handle_frame(struct xmm_net *xn, u8 *data, int len)
+ {
+ 	struct mux_first_header *first;
+ 	struct mux_next_header *adth;
+@@ -1059,7 +1059,7 @@ static void xmm7360_net_mux_handle_frame(struct xmm_net *xn, u8 *data, int len)
+ 	}
+ }
+ 
+-static void xmm7360_net_poll(struct xmm_dev *xmm)
++static void xmm7560_net_poll(struct xmm_dev *xmm)
+ {
+ 	struct queue_pair *qp;
+ 	struct td_ring *ring;
+@@ -1069,36 +1069,36 @@ static void xmm7360_net_poll(struct xmm_dev *xmm)
+ 	qp = xmm->net->qp;
+ 	ring = &xmm->td_ring[qp->num * 2 + 1];
+ 
+-	if (netif_queue_stopped(xmm->netdev) && xmm7360_qp_can_write(qp))
++	if (netif_queue_stopped(xmm->netdev) && xmm7560_qp_can_write(qp))
+ 		netif_wake_queue(xmm->netdev);
+ 
+-	while (xmm7360_qp_has_data(qp)) {
++	while (xmm7560_qp_has_data(qp)) {
+ 		idx = ring->last_handled;
+ 		nread = ring->tds[idx].length;
+-		xmm7360_net_mux_handle_frame(xmm->net, ring->pages[idx], nread);
++		xmm7560_net_mux_handle_frame(xmm->net, ring->pages[idx], nread);
+ 
+-		xmm7360_td_ring_read(xmm, qp->num * 2 + 1);
+-		xmm7360_ding(xmm, DOORBELL_TD);
++		xmm7560_td_ring_read(xmm, qp->num * 2 + 1);
++		xmm7560_ding(xmm, DOORBELL_TD);
+ 		ring->last_handled = (idx + 1) & (ring->depth - 1);
+ 	}
+ }
+ 
+-static const struct net_device_ops xmm7360_netdev_ops = {
+-	.ndo_uninit = xmm7360_net_uninit,
+-	.ndo_open = xmm7360_net_open,
+-	.ndo_stop = xmm7360_net_close,
+-	.ndo_start_xmit = xmm7360_net_xmit,
++static const struct net_device_ops xmm7560_netdev_ops = {
++	.ndo_uninit = xmm7560_net_uninit,
++	.ndo_open = xmm7560_net_open,
++	.ndo_stop = xmm7560_net_close,
++	.ndo_start_xmit = xmm7560_net_xmit,
+ };
+ 
+-static void xmm7360_net_setup(struct net_device *dev)
++static void xmm7560_net_setup(struct net_device *dev)
+ {
+ 	struct xmm_net *xn = netdev_priv(dev);
+ 	spin_lock_init(&xn->lock);
+ 	hrtimer_init(&xn->deadline, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+-	xn->deadline.function = xmm7360_net_deadline_cb;
++	xn->deadline.function = xmm7560_net_deadline_cb;
+ 	skb_queue_head_init(&xn->queue);
+ 
+-	dev->netdev_ops = &xmm7360_netdev_ops;
++	dev->netdev_ops = &xmm7560_netdev_ops;
+ 
+ 	dev->hard_header_len = 0;
+ 	dev->addr_len = 0;
+@@ -1112,14 +1112,14 @@ static void xmm7360_net_setup(struct net_device *dev)
+ 	dev->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
+ }
+ 
+-static int xmm7360_create_net(struct xmm_dev *xmm)
++static int xmm7560_create_net(struct xmm_dev *xmm)
+ {
+ 	struct net_device *netdev;
+ 	struct xmm_net *xn;
+ 	int ret;
+ 
+ 	netdev = alloc_netdev(sizeof(struct xmm_net), "wwan%d",
+-			      NET_NAME_UNKNOWN, xmm7360_net_setup);
++			      NET_NAME_UNKNOWN, xmm7560_net_setup);
+ 
+ 	if (!netdev)
+ 		return -ENOMEM;
+@@ -1136,24 +1136,24 @@ static int xmm7360_create_net(struct xmm_dev *xmm)
+ 	ret = register_netdevice(netdev);
+ 	rtnl_unlock();
+ 
+-	xn->qp = xmm7360_init_qp(xmm, 0, 128, TD_MAX_PAGE_SIZE);
++	xn->qp = xmm7560_init_qp(xmm, 0, 128, TD_MAX_PAGE_SIZE);
+ 
+ 	if (!ret)
+-		ret = xmm7360_qp_start(xn->qp);
++		ret = xmm7560_qp_start(xn->qp);
+ 
+ 	if (ret < 0) {
+ 		free_netdev(netdev);
+ 		xmm->netdev = NULL;
+-		xmm7360_qp_stop(xn->qp);
++		xmm7560_qp_stop(xn->qp);
+ 	}
+ 
+ 	return ret;
+ }
+ 
+-static void xmm7360_destroy_net(struct xmm_dev *xmm)
++static void xmm7560_destroy_net(struct xmm_dev *xmm)
+ {
+ 	if (xmm->netdev) {
+-		xmm7360_qp_stop(xmm->net->qp);
++		xmm7560_qp_stop(xmm->net->qp);
+ 		rtnl_lock();
+ 		unregister_netdevice(xmm->netdev);
+ 		rtnl_unlock();
+@@ -1163,16 +1163,16 @@ static void xmm7360_destroy_net(struct xmm_dev *xmm)
+ 	}
+ }
+ 
+-static irqreturn_t xmm7360_irq0(int irq, void *dev_id)
++static irqreturn_t xmm7560_irq0(int irq, void *dev_id)
+ {
+ 	struct xmm_dev *xmm = dev_id;
+ 	struct queue_pair *qp;
+ 	int id;
+ 
+-	xmm7360_poll(xmm);
++	xmm7560_poll(xmm);
+ 	wake_up(&xmm->wq);
+ 	if (xmm->td_ring) {
+-		xmm7360_net_poll(xmm);
++		xmm7560_net_poll(xmm);
+ 
+ 		for (id = 1; id < 8; id++) {
+ 			qp = &xmm->qp[id];
+@@ -1183,9 +1183,9 @@ static irqreturn_t xmm7360_irq0(int irq, void *dev_id)
+ 
+ 			/* tty tasks */
+ 			if (qp->open && qp->port.ops) {
+-				xmm7360_tty_poll_qp(qp);
++				xmm7560_tty_poll_qp(qp);
+ 				if (qp->tty_needs_wake &&
+-				    xmm7360_qp_can_write(qp) && qp->port.tty) {
++				    xmm7560_qp_can_write(qp) && qp->port.tty) {
+ 					struct tty_ldisc *ldisc =
+ 						tty_ldisc_ref(qp->port.tty);
+ 					if (ldisc) {
+@@ -1203,14 +1203,14 @@ static irqreturn_t xmm7360_irq0(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void xmm7360_dev_deinit(struct xmm_dev *xmm)
++static void xmm7560_dev_deinit(struct xmm_dev *xmm)
+ {
+ 	int i;
+ 	xmm->error = -ENODEV;
+ 
+ 	cancel_work_sync(&xmm->init_work);
+ 
+-	xmm7360_destroy_net(xmm);
++	xmm7560_destroy_net(xmm);
+ 
+ 	for (i = 0; i < 8; i++) {
+ 		if (xmm->qp[i].xmm) {
+@@ -1219,21 +1219,21 @@ static void xmm7360_dev_deinit(struct xmm_dev *xmm)
+ 				device_unregister(&xmm->qp[i].dev);
+ 			}
+ 			if (xmm->qp[i].port.ops) {
+-				tty_unregister_device(xmm7360_tty_driver,
++				tty_unregister_device(xmm7560_tty_driver,
+ 						      xmm->qp[i].tty_index);
+ 				tty_port_destroy(&xmm->qp[i].port);
+ 			}
+ 		}
+ 		memset(&xmm->qp[i], 0, sizeof(struct queue_pair));
+ 	}
+-	xmm7360_cmd_ring_free(xmm);
++	xmm7560_cmd_ring_free(xmm);
+ }
+ 
+-static void xmm7360_remove(struct pci_dev *dev)
++static void xmm7560_remove(struct pci_dev *dev)
+ {
+ 	struct xmm_dev *xmm = pci_get_drvdata(dev);
+ 
+-	xmm7360_dev_deinit(xmm);
++	xmm7560_dev_deinit(xmm);
+ 
+ 	if (xmm->irq)
+ 		free_irq(xmm->irq, xmm);
+@@ -1244,44 +1244,44 @@ static void xmm7360_remove(struct pci_dev *dev)
+ 	kfree(xmm);
+ }
+ 
+-static void xmm7360_cdev_dev_release(struct device *dev)
++static void xmm7560_cdev_dev_release(struct device *dev)
+ {
+ }
+ 
+-static int xmm7360_tty_open(struct tty_struct *tty, struct file *filp)
++static int xmm7560_tty_open(struct tty_struct *tty, struct file *filp)
+ {
+ 	struct queue_pair *qp = tty->driver_data;
+ 	return tty_port_open(&qp->port, tty, filp);
+ }
+ 
+-static void xmm7360_tty_close(struct tty_struct *tty, struct file *filp)
++static void xmm7560_tty_close(struct tty_struct *tty, struct file *filp)
+ {
+ 	struct queue_pair *qp = tty->driver_data;
+ 	if (qp)
+ 		tty_port_close(&qp->port, tty, filp);
+ }
+ 
+-static int xmm7360_tty_write(struct tty_struct *tty,
++static int xmm7560_tty_write(struct tty_struct *tty,
+ 			     const unsigned char *buffer, int count)
+ {
+ 	struct queue_pair *qp = tty->driver_data;
+ 	int written;
+-	written = xmm7360_qp_write(qp, buffer, count);
++	written = xmm7560_qp_write(qp, buffer, count);
+ 	if (written < count)
+ 		qp->tty_needs_wake = 1;
+ 	return written;
+ }
+ 
+-static int xmm7360_tty_write_room(struct tty_struct *tty)
++static unsigned int xmm7560_tty_write_room(struct tty_struct *tty)
+ {
+ 	struct queue_pair *qp = tty->driver_data;
+-	if (!xmm7360_qp_can_write(qp))
++	if (!xmm7560_qp_can_write(qp))
+ 		return 0;
+ 	else
+ 		return qp->xmm->td_ring[qp->num * 2].page_size;
+ }
+ 
+-static int xmm7360_tty_install(struct tty_driver *driver,
++static int xmm7560_tty_install(struct tty_driver *driver,
+ 			       struct tty_struct *tty)
+ {
+ 	struct queue_pair *qp;
+@@ -1297,41 +1297,41 @@ static int xmm7360_tty_install(struct tty_driver *driver,
+ 	return 0;
+ }
+ 
+-static int xmm7360_tty_port_activate(struct tty_port *tport,
++static int xmm7560_tty_port_activate(struct tty_port *tport,
+ 				     struct tty_struct *tty)
+ {
+ 	struct queue_pair *qp = tty->driver_data;
+-	return xmm7360_qp_start(qp);
++	return xmm7560_qp_start(qp);
+ }
+ 
+-static void xmm7360_tty_port_shutdown(struct tty_port *tport)
++static void xmm7560_tty_port_shutdown(struct tty_port *tport)
+ {
+ 	struct queue_pair *qp = tport->tty->driver_data;
+-	xmm7360_qp_stop(qp);
++	xmm7560_qp_stop(qp);
+ }
+ 
+-static const struct tty_port_operations xmm7360_tty_port_ops = {
+-	.activate = xmm7360_tty_port_activate,
+-	.shutdown = xmm7360_tty_port_shutdown,
++static const struct tty_port_operations xmm7560_tty_port_ops = {
++	.activate = xmm7560_tty_port_activate,
++	.shutdown = xmm7560_tty_port_shutdown,
+ };
+ 
+-static const struct tty_operations xmm7360_tty_ops = {
+-	.open = xmm7360_tty_open,
+-	.close = xmm7360_tty_close,
+-	.write = xmm7360_tty_write,
+-	.write_room = xmm7360_tty_write_room,
+-	.install = xmm7360_tty_install,
++static const struct tty_operations xmm7560_tty_ops = {
++	.open = xmm7560_tty_open,
++	.close = xmm7560_tty_close,
++	.write = xmm7560_tty_write,
++	.write_room = xmm7560_tty_write_room,
++	.install = xmm7560_tty_install,
+ };
+ 
+-static int xmm7360_create_tty(struct xmm_dev *xmm, int num)
++static int xmm7560_create_tty(struct xmm_dev *xmm, int num)
+ {
+ 	struct device *tty_dev;
+-	struct queue_pair *qp = xmm7360_init_qp(xmm, num, 8, 4096);
++	struct queue_pair *qp = xmm7560_init_qp(xmm, num, 8, 4096);
+ 	int ret;
+ 	tty_port_init(&qp->port);
+-	qp->port.ops = &xmm7360_tty_port_ops;
++	qp->port.ops = &xmm7560_tty_port_ops;
+ 	qp->tty_index = xmm->num_ttys++;
+-	tty_dev = tty_port_register_device(&qp->port, xmm7360_tty_driver,
++	tty_dev = tty_port_register_device(&qp->port, xmm7560_tty_driver,
+ 					   qp->tty_index, xmm->dev);
+ 
+ 	if (IS_ERR(tty_dev)) {
+@@ -1345,18 +1345,18 @@ static int xmm7360_create_tty(struct xmm_dev *xmm, int num)
+ 	return 0;
+ }
+ 
+-static int xmm7360_create_cdev(struct xmm_dev *xmm, int num, const char *name,
++static int xmm7560_create_cdev(struct xmm_dev *xmm, int num, const char *name,
+ 			       int cardnum)
+ {
+-	struct queue_pair *qp = xmm7360_init_qp(xmm, num, 16, TD_MAX_PAGE_SIZE);
++	struct queue_pair *qp = xmm7560_init_qp(xmm, num, 16, TD_MAX_PAGE_SIZE);
+ 	int ret;
+ 
+-	cdev_init(&qp->cdev, &xmm7360_fops);
++	cdev_init(&qp->cdev, &xmm7560_fops);
+ 	qp->cdev.owner = THIS_MODULE;
+ 	device_initialize(&qp->dev);
+ 	qp->dev.devt = MKDEV(MAJOR(xmm_base), num); // XXX multiple cards
+ 	qp->dev.parent = &xmm->pci_dev->dev;
+-	qp->dev.release = xmm7360_cdev_dev_release;
++	qp->dev.release = xmm7560_cdev_dev_release;
+ 	dev_set_name(&qp->dev, name, cardnum);
+ 	dev_set_drvdata(&qp->dev, qp);
+ 	ret = cdev_device_add(&qp->cdev, &qp->dev);
+@@ -1367,7 +1367,7 @@ static int xmm7360_create_cdev(struct xmm_dev *xmm, int num, const char *name,
+ 	return 0;
+ }
+ 
+-static int xmm7360_dev_init(struct xmm_dev *xmm)
++static int xmm7560_dev_init(struct xmm_dev *xmm)
+ {
+ 	int ret, i;
+ 	u32 status;
+@@ -1393,41 +1393,41 @@ static int xmm7360_dev_init(struct xmm_dev *xmm)
+ 
+ 	dev_info(xmm->dev, "modem is ready");
+ 
+-	ret = xmm7360_cmd_ring_init(xmm);
++	ret = xmm7560_cmd_ring_init(xmm);
+ 	if (ret) {
+ 		dev_err(xmm->dev, "Could not bring up command ring\n");
+ 		return ret;
+ 	}
+ 
+-	ret = xmm7360_create_cdev(xmm, 1, "xmm%d/rpc", xmm->card_num);
++	ret = xmm7560_create_cdev(xmm, 1, "xmm%d/rpc", xmm->card_num);
+ 	if (ret)
+ 		return ret;
+-	ret = xmm7360_create_cdev(xmm, 3, "xmm%d/trace", xmm->card_num);
++	ret = xmm7560_create_cdev(xmm, 3, "xmm%d/trace", xmm->card_num);
+ 	if (ret)
+ 		return ret;
+-	ret = xmm7360_create_tty(xmm, 2);
++	ret = xmm7560_create_tty(xmm, 2);
+ 	if (ret)
+ 		return ret;
+-	ret = xmm7360_create_tty(xmm, 4);
++	ret = xmm7560_create_tty(xmm, 4);
+ 	if (ret)
+ 		return ret;
+-	ret = xmm7360_create_tty(xmm, 7);
++	ret = xmm7560_create_tty(xmm, 7);
+ 	if (ret)
+ 		return ret;
+-	ret = xmm7360_create_net(xmm);
++	ret = xmm7560_create_net(xmm);
+ 	if (ret)
+ 		return ret;
+ 
+ 	return 0;
+ }
+ 
+-void xmm7360_dev_init_work(struct work_struct *work)
++void xmm7560_dev_init_work(struct work_struct *work)
+ {
+ 	struct xmm_dev *xmm = container_of(work, struct xmm_dev, init_work);
+-	xmm7360_dev_init(xmm);
++	xmm7560_dev_init(xmm);
+ }
+ 
+-static int xmm7360_probe(struct pci_dev *dev, const struct pci_device_id *id)
++static int xmm7560_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ {
+ 	struct xmm_dev *xmm = kzalloc(sizeof(struct xmm_dev), GFP_KERNEL);
+ 	int ret;
+@@ -1475,16 +1475,16 @@ static int xmm7360_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	}
+ 
+ 	init_waitqueue_head(&xmm->wq);
+-	INIT_WORK(&xmm->init_work, xmm7360_dev_init_work);
++	INIT_WORK(&xmm->init_work, xmm7560_dev_init_work);
+ 
+ 	pci_set_drvdata(dev, xmm);
+ 
+-	ret = xmm7360_dev_init(xmm);
++	ret = xmm7560_dev_init(xmm);
+ 	if (ret)
+ 		goto fail;
+ 
+ 	xmm->irq = pci_irq_vector(dev, 0);
+-	ret = request_irq(xmm->irq, xmm7360_irq0, 0, "xmm7360", xmm);
++	ret = request_irq(xmm->irq, xmm7560_irq0, 0, "xmm7560", xmm);
+ 	if (ret) {
+ 		dev_err(&(dev->dev), "request_irq\n");
+ 		goto fail;
+@@ -1493,19 +1493,19 @@ static int xmm7360_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	return ret;
+ 
+ fail:
+-	xmm7360_dev_deinit(xmm);
+-	xmm7360_remove(dev);
++	xmm7560_dev_deinit(xmm);
++	xmm7560_remove(dev);
+ 	return ret;
+ }
+ 
+-static struct pci_driver xmm7360_driver = {
+-	.name = "xmm7360",
+-	.id_table = xmm7360_ids,
+-	.probe = xmm7360_probe,
+-	.remove = xmm7360_remove,
++static struct pci_driver xmm7560_driver = {
++	.name = "xmm7560",
++	.id_table = xmm7560_ids,
++	.probe = xmm7560_probe,
++	.remove = xmm7560_remove,
+ };
+ 
+-static int xmm7360_init(void)
++static int xmm7560_init(void)
+ {
+ 	int ret;
+ 
+@@ -1514,35 +1514,35 @@ static int xmm7360_init(void)
+ 		return ret;
+ 	}
+ 
+-	xmm7360_tty_driver = tty_alloc_driver(8, 0);
+-	if (IS_ERR(xmm7360_tty_driver)) {
+-		pr_err("xmm7360: Failed to allocate tty\n");
++	xmm7560_tty_driver = tty_alloc_driver(8, 0);
++	if (IS_ERR(xmm7560_tty_driver)) {
++		pr_err("xmm7560: Failed to allocate tty\n");
+ 		return -ENOMEM;
+ 	}
+ 
+-	xmm7360_tty_driver->driver_name = "xmm7360";
+-	xmm7360_tty_driver->name = "ttyXMM";
+-	xmm7360_tty_driver->major = 0;
+-	xmm7360_tty_driver->type = TTY_DRIVER_TYPE_SERIAL;
+-	xmm7360_tty_driver->subtype = SERIAL_TYPE_NORMAL;
+-	xmm7360_tty_driver->flags =
++	xmm7560_tty_driver->driver_name = "xmm7560";
++	xmm7560_tty_driver->name = "ttyXMM";
++	xmm7560_tty_driver->major = 0;
++	xmm7560_tty_driver->type = TTY_DRIVER_TYPE_SERIAL;
++	xmm7560_tty_driver->subtype = SERIAL_TYPE_NORMAL;
++	xmm7560_tty_driver->flags =
+ 		TTY_DRIVER_REAL_RAW |
+ 		TTY_DRIVER_DYNAMIC_DEV; // Could this flags be defined in the flags??
+-	xmm7360_tty_driver->init_termios = tty_std_termios;
+-	xmm7360_tty_driver->init_termios.c_cflag = B115200 | CS8 | CREAD |
++	xmm7560_tty_driver->init_termios = tty_std_termios;
++	xmm7560_tty_driver->init_termios.c_cflag = B115200 | CS8 | CREAD |
+ 						   HUPCL | CLOCAL;
+-	xmm7360_tty_driver->init_termios.c_lflag &= ~ECHO;
+-	xmm7360_tty_driver->init_termios.c_ispeed = 115200;
+-	xmm7360_tty_driver->init_termios.c_ospeed = 115200;
+-	tty_set_operations(xmm7360_tty_driver, &xmm7360_tty_ops);
++	xmm7560_tty_driver->init_termios.c_lflag &= ~ECHO;
++	xmm7560_tty_driver->init_termios.c_ispeed = 115200;
++	xmm7560_tty_driver->init_termios.c_ospeed = 115200;
++	tty_set_operations(xmm7560_tty_driver, &xmm7560_tty_ops);
+ 
+-	ret = tty_register_driver(xmm7360_tty_driver);
++	ret = tty_register_driver(xmm7560_tty_driver);
+ 	if (ret) {
+-		pr_err("xmm7360: failed to register xmm7360_tty driver\n");
++		pr_err("xmm7560: failed to register xmm7560_tty driver\n");
+ 		return ret;
+ 	}
+ 
+-	ret = pci_register_driver(&xmm7360_driver);
++	ret = pci_register_driver(&xmm7560_driver);
+ 	if (ret) {
+ 		return ret;
+ 	}
+@@ -1550,13 +1550,13 @@ static int xmm7360_init(void)
+ 	return 0;
+ }
+ 
+-static void xmm7360_exit(void)
++static void xmm7560_exit(void)
+ {
+-	pci_unregister_driver(&xmm7360_driver);
++	pci_unregister_driver(&xmm7560_driver);
+ 	unregister_chrdev_region(xmm_base, 8);
+-	tty_unregister_driver(xmm7360_tty_driver);
+-	put_tty_driver(xmm7360_tty_driver);
++	tty_unregister_driver(xmm7560_tty_driver);
++	tty_driver_kref_put(xmm7560_tty_driver);
+ }
+ 
+-module_init(xmm7360_init);
+-module_exit(xmm7360_exit);
++module_init(xmm7560_init);
++module_exit(xmm7560_exit);

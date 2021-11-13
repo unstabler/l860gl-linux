@@ -1,0 +1,44 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# Path to the script location, e.g. /home/hcloud/iosm/imc_start.sh
+SCRIPT=$(readlink -f "$0")
+# Directory name this script is in, thus /home/hcloud/iosm/
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=0
+  IAT0_DEV="/dev/iat"
+  IAT1_DEV="/dev/iat1"
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+  IAT0_DEV="/dev/iat0_$MODEM_ID"
+  IAT1_DEV="/dev/iat1_$MODEM_ID"
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+# configure AT channels
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.iat0_$MODEM_ID -v 258 -c $IAT0_DEV -m 65535 -i $MODEM_ID
+
+# Exit if wwan_cfg fails
+rc=$?; if [ $rc != 0 ]; then exit $rc; fi
+
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n wwan$MODEM_ID.iat1_$MODEM_ID -v 259 -c $IAT1_DEV -m 65535 -i $MODEM_ID
+rc=$?
+exit $rc

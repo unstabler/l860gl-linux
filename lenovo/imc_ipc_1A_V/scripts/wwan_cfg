@@ -1,0 +1,171 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+ROOTMTU=65535
+MTU=1500
+GREEN="\033[1;32m"
+RED="\033[1;91m"
+NORMAL="\033[0m"
+
+help() {
+  echo "${RED}usage: $0 -r <rootdev> -n <netdev> -v <vid> [-c <chardev>] [-m <mtu>] [-i <modem_id 0 to 3>] ${NORMAL}"
+}
+
+while getopts r:n:c:v:m:i:h option
+do
+  case "${option}"
+  in
+    r) ROOT=${OPTARG};;
+    n) NETDEV=${OPTARG};;
+    v) VID=$OPTARG;;
+    c) CHARDEV=$OPTARG;;
+    m) MTU=$OPTARG;;
+	i) MODEM_ID=$OPTARG;;
+    h) help
+       exit 0;;
+  esac
+done
+
+if [ -z $ROOT ]
+then
+  echo "${RED}root device name not specified. Running with \"wwan0\" as default root device ${NORMAL}"
+  ROOT=wwan0
+fi
+
+if [ -z $NETDEV ]
+then
+  echo "${RED}net device name missing. ${NORMAL}"
+  help
+  exit 1
+fi
+
+if [ -z $VID ]
+then
+  echo "${RED}vlan tag missing. ${NORMAL}"
+  help
+  exit 1
+fi
+
+if [ -z $MODEM_ID ]
+then
+  echo "${RED}modem id missing. Default to zero ${NORMAL}"
+  MODEM_ID=0
+fi
+
+# Check if modem id is within the range.
+if [ $MODEM_ID -lt 0 ] || [ $MODEM_ID -gt 3 ]; then
+  echo "${RED}modem id $MODEM_ID unsupported. Should be in range [0, 3] ${NORMAL}"
+  help
+  exit 1
+fi
+
+DBGFS_ENTRY="/sys/kernel/debug/imc_ipc$MODEM_ID"
+
+# Check if modem is ready before bringing up the interfaces.
+if [ -f $DBGFS_ENTRY/mdm_state ]; then
+	mdm_state=`cat $DBGFS_ENTRY/mdm_state`
+	echo "Modem state: $mdm_state"
+
+	if [ "$mdm_state" = "MDM_READY" ]; then
+		echo "Modem is running. Setting the interface: $NETDEV"
+	else
+		echo "${RED}Modem is not running. Cannot configure device: $NETDEV. ${NORMAL}"
+		exit 1
+	fi
+else
+	echo "Modem state not detected."
+fi
+
+# Delete the vlan device if it exists
+if [ -f /proc/net/vlan/$NETDEV ]
+then
+  ip link del $NETDEV
+fi
+
+# flush data from any existing, previous old PTY. Ignore error if no data exists
+if [ $CHARDEV ]
+then
+  cat $CHARDEV 1>/dev/null 2>&1 || true
+fi
+
+# Set the Root MTU
+echo ip link set dev $ROOT mtu $ROOTMTU up
+ip link set dev $ROOT mtu $ROOTMTU up
+
+# Add the VLAN device
+echo ip link add link $ROOT name $NETDEV type vlan id $VID
+ip link add link $ROOT name $NETDEV type vlan id $VID
+
+# Return if failed to add vlan device
+rc=$?
+if [ $rc != 0 ]; then
+	echo "${RED}Failed to add VLAN device $NETDEV on VLAN ID $VID ${NORMAL}"
+	exit $rc
+fi
+
+# Flush the addresses
+echo ip    addr flush dev $NETDEV
+echo ip -6 addr flush dev $NETDEV
+ip    addr flush dev $NETDEV
+ip -6 addr flush dev $NETDEV
+
+# Channels greater than 255 are treated as control channels.
+# Disable ipv6 so that network stack does not try to send any icmp v6
+# autoconfig messages over these interfaces
+
+if [ $VID -gt 255 ] && [ -e /proc/sys/net/ipv6/conf/$NETDEV/disable_ipv6 ]
+then
+  echo 1 > /proc/sys/net/ipv6/conf/$NETDEV/disable_ipv6
+fi
+
+echo ip link set dev $NETDEV mtu $MTU up
+ip link set dev $NETDEV mtu $MTU up
+
+if [ $CHARDEV ]
+then
+
+  # Check if socat version is higher than 1.7.3.0
+  SOCAT_VERSION="$(socat -V | grep -i 'socat version' | cut -f 3 -d ' ')"
+
+  echo "Socat version: $SOCAT_VERSION"
+
+  if [ -z "$SOCAT_VERSION" ]
+  then
+    echo "${RED}Warning: Please check if socat 1.7.3.0 or higher installed. ${NORMAL}"
+  else
+    # Rawer option introduced in 1.7.3.0 version
+    EXPECTED_SOCAT="1.7.3.0"
+    temp=$(eval "echo '$EXPECTED_SOCAT\n$SOCAT_VERSION' | sort -V | head -n1")
+    if [ "$temp" = "$SOCAT_VERSION" ] && [ "$SOCAT_VERSION" != "$EXPECTED_SOCAT" ] ; then
+      echo "Socat version mismatch. Expected version $EXPECTED_SOCAT or higher."
+    fi
+  fi
+
+  # Deprecate creation of Trace interface
+  if [ $VID -eq 261 ]
+  then
+    echo "${RED}Creation of trace device via socat is no longer supported"
+    echo "Use network interface $NETDEV for trace collection (via sock_app or STT)."
+    echo "Refer to host driver wiki for further information."
+    echo "https://wiki.ith.intel.com/display/InterProcessorCommunication/IOSM+Host+Driver+Advanced+User+Guide${NORMAL}"
+    exit 0
+  fi
+
+  socat -t 0 INTERFACE:$NETDEV,type=2 PTY,mode=0777,rawer,link=$CHARDEV 1>/dev/null 2>&1 &
+  echo "${GREEN}Bringing up $NETDEV on $ROOT vid=$VID chardev=$CHARDEV ${NORMAL}"
+  # Wait for socat to bring up the configured chardev, so that the device is
+  # available when this script ends.
+  retries=20
+  while [ ! -e $CHARDEV ] && [ $retries -gt 0 ]
+  do
+    sleep 0.1
+    retries=$((retries-1))
+  done
+else
+  echo "${GREEN}Bringing up $NETDEV on $ROOT vid=$VID ${NORMAL}"
+fi

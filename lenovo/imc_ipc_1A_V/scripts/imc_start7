@@ -1,0 +1,49 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# Path to the script location, e.g. /home/hcloud/iosm/imc_start.sh
+SCRIPT=$(readlink -f "$0")
+# Directory name this script is in, thus /home/hcloud/iosm/
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+while getopts h option
+do
+  case "${option}"
+  in
+    h) echo "usage: $0 <modem_instance_nr: 0..3>"
+       exit 0;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  MODEM_ID=0
+  INM7="inm7"
+elif [ $1 -ge 0 ] && [ $1 -lt 4 ]; then
+  MODEM_ID=$1
+  INM7="inm7_$MODEM_ID"
+else
+  echo "usage: $0 <modem_instance_nr: 0..3>"
+  exit 1
+fi
+
+VLAN_ID=8
+SUBNET=`expr $MODEM_ID \* 10 + $VLAN_ID`
+
+$SCRIPT_DIR/wwan_cfg -r wwan$MODEM_ID -n $INM7 -v $VLAN_ID -i $MODEM_ID
+
+# Exit if wwan_cfg fails
+rc=$?; if [ $rc != 0 ]; then exit $rc; fi
+
+ifconfig $INM7 down
+
+# configure interface 7
+ifconfig $INM7 192.168.$SUBNET.2
+ifconfig $INM7 up
+ifconfig $INM7 hw ether 00:49:4e:4d:37:00
+route add -net 192.168.$SUBNET.0 netmask 255.255.255.255 gw 192.168.$SUBNET.3 $INM7
+ifconfig $INM7
